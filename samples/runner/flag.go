@@ -8,7 +8,6 @@ var maxInstCount = flag.Uint64("max-inst", 0,
 var parallelFlag = flag.Bool("parallel", false,
 	"Run the simulation in parallel.")
 var isaDebug = flag.Bool("debug-isa", false, "Generate the ISA debugging file.")
-
 var verifyFlag = flag.Bool("verify", false, "Verify the emulation result.")
 var memTracing = flag.Bool("trace-mem", false, "Generate memory trace")
 var instCountReportFlag = flag.Bool("report-inst-count", false,
@@ -35,23 +34,16 @@ var filenameFlag = flag.String("metric-file-name", "metrics",
 	"Modify the name of the output csv file.")
 var magicMemoryCopy = flag.Bool("magic-memory-copy", false,
 	"Copy data from CPU directly to global memory")
-var bufferLevelTraceDirFlag = flag.String("buffer-level-trace-dir", "",
-	"The directory to dump the buffer level traces.")
-var bufferLevelTracePeriodFlag = flag.Float64("buffer-level-trace-period", 0.0,
-	"The period to dump the buffer level trace.")
 var simdBusyTimeTracerFlag = flag.Bool("report-busy-time", false, "Report SIMD Unit's busy time")
 var reportCPIStackFlag = flag.Bool("report-cpi-stack", false, "Report CPI stack")
 var customPortForAkitaRTM = flag.Int("akitartm-port", 0,
 	`Custom port to host AkitaRTM. A 4-digit or 5-digit port number is required. If 
 this number is not given or a invalid number is given number, a random port 
 will be used.`)
-
-var analyszerNameFlag = flag.String("analyzer-Name", "",
+var analyszerNameFlag = flag.String("analyzer-name", "",
 	"The name of the analyzer to use.")
-
-var analyszerPeriodFlag = flag.Float64("analyzer-period", 0.0,
+var analyszerPeriodFlag = flag.Float64("analyzer-period", 1e-6,
 	"The period to dump the analyzer results.")
-
 var visTracing = flag.Bool("trace-vis", false,
 	"Generate trace for visualization purposes.")
 var visTracerDB = flag.String("trace-vis-db", "sqlite",
