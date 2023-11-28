@@ -155,11 +155,17 @@ func (b *EmuGPUBuilder) buildComputeUnits() {
 }
 
 func (b *EmuGPUBuilder) buildMemory() {
-	b.gpuMem = idealmemcontroller.New(
-		b.gpuName+".GlobalMem", b.engine, b.memCapacity)
-	b.gpuMem.Freq = 1 * sim.GHz
-	b.gpuMem.Latency = 1
-	b.gpuMem.Storage = b.storage
+	// b.gpuMem = idealmemcontroller.New(
+	// 	b.gpuName+".GlobalMem", b.engine, b.memCapacity)
+	// b.gpuMem.Freq = 1 * sim.GHz
+	// b.gpuMem.Latency = 1
+	// b.gpuMem.Storage = b.storage
+	b.gpuMem = idealmemcontroller.MakeBuilder().
+		WithEngine(b.engine).
+		WithFreq(1 * sim.GHz).
+		WithLatency(1).
+		WithStorage(b.storage).
+		Build(b.gpuName + ".GlobalMem")
 
 	if b.enableMemTracing {
 		file, _ := os.Create("mem.trace")

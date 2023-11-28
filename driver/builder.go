@@ -15,13 +15,15 @@ type Builder struct {
 	pageTable          vm.PageTable
 	globalStorage      *mem.Storage
 	useMagicMemoryCopy bool
+	memSize            uint64
 }
 
 // MakeBuilder creates a driver builder with some default configuration
 // parameters.
 func MakeBuilder() Builder {
 	return Builder{
-		freq: 1 * sim.GHz,
+		freq:    1 * sim.GHz,
+		memSize: uint64(4 * mem.GB),
 	}
 }
 
@@ -59,6 +61,12 @@ func (b Builder) WithGlobalStorage(storage *mem.Storage) Builder {
 // WithMagicMemoryCopyMiddleware uses global storage as memory components
 func (b Builder) WithMagicMemoryCopyMiddleware() Builder {
 	b.useMagicMemoryCopy = true
+	return b
+}
+
+// WithMemSize sets the size of the memory.
+func (b Builder) WithMemSize(size uint64) Builder {
+	b.memSize = size
 	return b
 }
 
@@ -111,7 +119,7 @@ func (b *Builder) createCPU(d *Driver) {
 		Type:     internal.DeviceTypeCPU,
 		MemState: internal.NewDeviceMemoryState(d.Log2PageSize),
 	}
-	cpu.SetTotalMemSize(4 * mem.GB)
+	cpu.SetTotalMemSize(b.memSize)
 
 	d.memAllocator.RegisterDevice(cpu)
 	d.devices = append(d.devices, cpu)
